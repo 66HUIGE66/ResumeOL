@@ -66,6 +66,18 @@ const parseResumeWithGemini = async (base64Pdf: string): Promise<ResumeData> => 
           }
         }
       },
+      awards: {
+        type: Type.ARRAY,
+        items: {
+          type: Type.OBJECT,
+          properties: {
+            name: { type: Type.STRING },
+            issuer: { type: Type.STRING },
+            year: { type: Type.STRING }
+          }
+        },
+        description: "List of honors, awards, or certifications"
+      },
       socialLinks: {
         type: Type.OBJECT,
         properties: {

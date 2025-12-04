@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Plus, Trash2, Save } from 'lucide-react';
-import { WorkExperience, Education, Project } from '../types';
+import { WorkExperience, Education, Project, Award } from '../types';
 
 interface SectionEditorProps {
   section: string;
@@ -275,6 +275,72 @@ const SectionEditor: React.FC<SectionEditorProps> = ({ section, initialData, onS
     );
   };
 
+  const renderAwardsEditor = () => {
+    const awards = (data || []) as Award[];
+    return (
+      <div className="space-y-4">
+        {awards.map((award, index) => (
+          <div key={index} className="bg-slate-50 p-4 rounded-xl border border-slate-200 relative">
+             <button 
+              onClick={() => {
+                const newAwards = [...awards];
+                newAwards.splice(index, 1);
+                setData(newAwards);
+              }}
+              className="absolute top-2 right-2 text-slate-400 hover:text-red-500 p-1"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+            <div className="grid grid-cols-1 gap-3">
+               <div>
+                <label className="block text-xs font-medium text-slate-500 mb-1">奖项名称</label>
+                <input
+                  value={award.name}
+                  onChange={(e) => {
+                    const newAwards = [...awards];
+                    newAwards[index].name = e.target.value;
+                    setData(newAwards);
+                  }}
+                  className="w-full p-2 border border-slate-300 rounded-lg text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-slate-500 mb-1">颁发机构</label>
+                <input
+                  value={award.issuer}
+                  onChange={(e) => {
+                    const newAwards = [...awards];
+                    newAwards[index].issuer = e.target.value;
+                    setData(newAwards);
+                  }}
+                  className="w-full p-2 border border-slate-300 rounded-lg text-sm"
+                />
+              </div>
+               <div>
+                <label className="block text-xs font-medium text-slate-500 mb-1">年份</label>
+                <input
+                  value={award.year}
+                  onChange={(e) => {
+                    const newAwards = [...awards];
+                    newAwards[index].year = e.target.value;
+                    setData(newAwards);
+                  }}
+                  className="w-full p-2 border border-slate-300 rounded-lg text-sm"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+         <button
+          onClick={() => setData([...awards, { name: '奖项名称', issuer: '颁发机构', year: '2024' }])}
+          className="w-full py-3 border-2 border-dashed border-slate-300 rounded-xl text-slate-500 hover:border-indigo-500 hover:text-indigo-600 flex items-center justify-center gap-2 font-medium transition-colors"
+        >
+          <Plus className="w-4 h-4" /> 添加荣誉奖项
+        </button>
+      </div>
+    );
+  };
+
   const renderProjectsEditor = () => {
     const projects = data as Project[];
     return (
@@ -376,6 +442,7 @@ const SectionEditor: React.FC<SectionEditorProps> = ({ section, initialData, onS
       case 'experience': return '编辑工作经历';
       case 'education': return '编辑教育背景';
       case 'projects': return '编辑项目经验';
+      case 'awards': return '编辑荣誉奖项';
       default: return '编辑内容';
     }
   };
@@ -388,6 +455,7 @@ const SectionEditor: React.FC<SectionEditorProps> = ({ section, initialData, onS
       case 'experience': return renderExperienceEditor();
       case 'education': return renderEducationEditor();
       case 'projects': return renderProjectsEditor();
+      case 'awards': return renderAwardsEditor();
       default: return null;
     }
   };

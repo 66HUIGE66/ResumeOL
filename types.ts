@@ -19,6 +19,12 @@ export interface Project {
   link?: string;
 }
 
+export interface Award {
+  name: string;
+  issuer: string;
+  year: string;
+}
+
 export interface ResumeData {
   fullName: string;
   title: string;
@@ -30,6 +36,7 @@ export interface ResumeData {
   experience: WorkExperience[];
   education: Education[];
   projects: Project[];
+  awards?: Award[];
   socialLinks?: {
     github?: string;
     linkedin?: string;

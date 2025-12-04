@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ResumeData } from '../types';
-import { Mail, MapPin, Globe, Github, Linkedin, ExternalLink, Briefcase, GraduationCap, Award, Edit2 } from 'lucide-react';
+import { Mail, MapPin, Globe, Github, Linkedin, ExternalLink, Briefcase, GraduationCap, Award, Edit2, Trophy } from 'lucide-react';
 import SectionEditor from './SectionEditor';
 
 interface ResumePreviewProps {
@@ -37,6 +37,9 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, onUpdate }) => {
       case 'projects':
         newData.projects = sectionData;
         break;
+      case 'awards':
+        newData.awards = sectionData;
+        break;
     }
     
     onUpdate(newData);
@@ -59,6 +62,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, onUpdate }) => {
       case 'experience': return data.experience;
       case 'education': return data.education;
       case 'projects': return data.projects;
+      case 'awards': return data.awards || [];
       default: return null;
     }
   };
@@ -247,6 +251,33 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, onUpdate }) => {
                   </div>
                 ))}
               </div>
+            </section>
+
+            {/* Awards */}
+            <section className="relative group">
+              <div className="flex items-center justify-between border-b-2 border-slate-100 pb-3 mb-6">
+                 <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+                    <Trophy className="w-5 h-5 text-slate-400" />
+                    荣誉奖项
+                  </h2>
+                <EditButton section="awards" className="static opacity-0 group-hover:opacity-100" />
+              </div>
+
+              {(!data.awards || data.awards.length === 0) ? (
+                 <div className="text-sm text-slate-400 italic">
+                   暂无奖项信息，点击编辑添加。
+                 </div>
+              ) : (
+                <div className="space-y-4">
+                  {data.awards.map((award, index) => (
+                    <div key={index}>
+                      <h3 className="font-bold text-slate-800">{award.name}</h3>
+                      <p className="text-indigo-600 text-sm mb-1">{award.issuer}</p>
+                      <p className="text-slate-400 text-xs">{award.year}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </section>
 
           </div>
